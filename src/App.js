@@ -5,6 +5,7 @@ import { draw, calcMatches } from './Lottery.js';
 import './App.css';
 import BallContainer from './BallContainer.js';
 import Ticket from './Ticket.js';
+import PayoutTable from './PayoutTable.js';
 
 
 function App() {
@@ -18,9 +19,10 @@ function App() {
   const [picks, setPicks] = useState(new Set());
   const [bonusPick, setBonusPick] = useState(0);
   const [matches, setMatches] = useState(new Set());
-  const [payouts, setPayouts] = useState([0,0,3,10,100,2500,100000,10000000])
+  const [payouts, setPayouts] = useState([0,0,3,10,100,2500,10000000])
   //winnings
   const [price, setPrice] = useState(3);
+  const [results, setResults] = useState([...Array(numBalls+1)].fill(0));
   const [total, setTotal] = useState(0);
 
   const drawBalls = [...Array(numBalls).keys()].map((id) => {
@@ -31,6 +33,12 @@ function App() {
   const doDraw = () => {
     let [currentDraws, currentBonusDraw] = draw(numBalls, range);
     let matches = calcMatches(currentDraws, picks);
+
+    const tempResults = [...results];
+    tempResults[matches.size] += 1;
+    setResults(tempResults);
+
+    setTotal(total - price + payouts[matches.size]);
     setDraws(currentDraws);
     setBonusDraw(currentBonusDraw);
     setMatches(matches);
@@ -50,6 +58,8 @@ function App() {
         <h1>Lottery Sim</h1>
         <BallContainer balls={ drawBalls }/>
         <Ticket range={ range } numBalls={ numBalls } picks={ picks } setPicks={ setPicks }/>
+        <PayoutTable payouts={ payouts } results={ results } numBalls={ numBalls }/>
+        
         <p>{total}</p>
         <p>{[...picks]}</p>
         <button onClick={ doDraw }>Draw</button>

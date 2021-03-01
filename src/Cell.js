@@ -32,7 +32,7 @@ function Cell({ value, picks, numBalls, setPicks }){
     }
     return(
         <div style={ style } onClick={ onClick }>
-            {value < 10 ? '0'+value : value }
+            {value < 10 ? '0' + value : value }
         </div>
     );
 }

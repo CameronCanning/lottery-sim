@@ -1,5 +1,3 @@
-
-
 function BallContainer({ balls }){
     const style = {
         justifyContent: 'center',
@@ -8,6 +6,7 @@ function BallContainer({ balls }){
         flexDirection: 'row',
         alignItems: 'center', 
         textAlign: 'center',
+        margin: '30px',
     }
 
     return(
