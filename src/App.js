@@ -12,11 +12,11 @@ function App() {
   //setup state
   const [numBalls, setNumBalls] = useState(6);
   const [range, setRange] = useState(49);
-  const [numDraws, setNumDraws] = useState(1);
+  const [numDraws, setNumDraws] = useState(0);
   //lottery state
   const [draws, setDraws] = useState([...Array(numBalls)].fill('-'));
   const [bonusDraw, setBonusDraw] = useState(0);
-  const [picks, setPicks] = useState(new Set());
+  const [picks, setPicks] = useState(new Set([1,2,3,4,5,6]));
   const [bonusPick, setBonusPick] = useState(0);
   const [matches, setMatches] = useState(new Set());
   const [payouts, setPayouts] = useState([0,0,3,10,100,2500,10000000])
@@ -30,39 +30,60 @@ function App() {
     return <Ball key={ id } value={ _value } isMatch={ matches.has(_value) }/>;
   });
     
-  const doDraw = () => {
-    let [currentDraws, currentBonusDraw] = draw(numBalls, range);
-    let matches = calcMatches(currentDraws, picks);
+  const doDraw = (count) => {
+      
+      const test = setInterval(() => {
+      if (count > 0){
+        let [currentDraws, currentBonusDraw] = draw(numBalls, range);
+        let matches = calcMatches(currentDraws, picks);
 
-    const tempResults = [...results];
-    tempResults[matches.size] += 1;
-    setResults(tempResults);
+        //const tempResults = [...results];
+        //tempResults[matches.size] += 1;
+        //setResults(tempResults);
+        setResults((results) => {
+          const tempResults = [...results];
+          tempResults[matches.size] += 1;
+          return tempResults;
+        });
 
-    setTotal(total - price + payouts[matches.size]);
-    setDraws(currentDraws);
-    setBonusDraw(currentBonusDraw);
-    setMatches(matches);
+        setTotal(total => total - price + payouts[matches.size]);
+        setDraws(currentDraws);
+        setBonusDraw(currentBonusDraw);
+        setMatches(matches)
+        count = count - 1;
+      }
+      
+    } , 1);
+    //clearInterval(test);
   }
-  /** 
-  useEffect(()=>{
-    const interval = setInterval(() => {      
-      setDraws(draw(numBalls, range, bonus));
-      console.log(draws);
-    }, 1000);
-    return () => clearTimeout(interval);
-  });
-  */
+  
+  
 
+  const style1 = {
+    display: 'flex',
+  }
+
+  const style2 = {
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'space-between',
+
+  }
   return (
     <div className="App">
         <h1>Lottery Sim</h1>
         <BallContainer balls={ drawBalls }/>
-        <Ticket range={ range } numBalls={ numBalls } picks={ picks } setPicks={ setPicks }/>
-        <PayoutTable payouts={ payouts } results={ results } numBalls={ numBalls }/>
+        <div style={style1}>
+          <Ticket range={ range } numBalls={ numBalls } picks={ picks } setPicks={ setPicks }/>
+          <div style={style2}>
+            <h2 style={{fontSize: '24px', }}>{'Total $'+total.toLocaleString()}</h2>
+            <button onClick={ () => { doDraw(1000) } }>Draw</button>
+            <PayoutTable payouts={ payouts } results={ results } numBalls={ numBalls }/>
+          </div>
+          
+        </div>
         
-        <p>{total}</p>
-        <p>{[...picks]}</p>
-        <button onClick={ doDraw }>Draw</button>
+        
     </div>
   );
 }

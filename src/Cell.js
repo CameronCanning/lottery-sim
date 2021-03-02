@@ -1,8 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { draw } from './Lottery';
 
-function Cell({ value, picks, numBalls, setPicks }){
-    const [pressed, setPressed] = useState(0);
+function Cell({ value, picks, numBalls, setPicks, pressed }){
     const style = {
         width: '50px',
         height: '50px',
@@ -20,14 +19,14 @@ function Cell({ value, picks, numBalls, setPicks }){
                 const tempPicks = new Set([...picks]);
                 tempPicks.add(value);
                 setPicks(tempPicks)
-                setPressed(1);
+                //setPressed(1);
             }
         }
         else {
             const tempPicks = new Set([...picks]);
             tempPicks.delete(value);
             setPicks(tempPicks);
-            setPressed(0);
+            //setPressed(0);
         }
     }
     return(

@@ -10,6 +10,7 @@ function Ticket({ range, numBalls, picks, setPicks }){
         margin: 'auto',
         border: '1px solid black',
         textAlign: 'center',
+        flexShrink: '0',
     }
 
     const cells = [...Array(range).keys()].map((id) => 
@@ -18,8 +19,10 @@ function Ticket({ range, numBalls, picks, setPicks }){
             value={ id+1 } 
             picks = { picks } 
             numBalls={ numBalls } 
-            setPicks={ setPicks }/>);
+            setPicks={ setPicks }
+            pressed={ picks.has(id+1) }/>);
     /** 
+     
     cells.push(
         <Cell 
             key={ -1 } 

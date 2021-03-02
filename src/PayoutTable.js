@@ -17,11 +17,14 @@ function PayoutTable({ payouts, results, numBalls}){
     return(        
         //TODO: use CSS or stylyed components
         <table style={ borders }>
+            <thead>
             <tr >
                 <th style={borders}>Matches</th>
                 <th style={borders}>Payout</th>
                 <th style={borders}>Count</th>
             </tr>
+            </thead>
+            <tbody>
             {[...Array(numBalls+1).keys()].map((i) => {
                 return (
                 <tr key={i} >
@@ -31,6 +34,7 @@ function PayoutTable({ payouts, results, numBalls}){
                 </tr>
                 );
             })}
+            </tbody>
         </table>
 
     );
