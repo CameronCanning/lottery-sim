@@ -14,6 +14,16 @@ function PayoutTable({ payouts, results, numBalls}){
         padding: '10px',
         fontSize: '24px'
     }
+
+    const style2 = {
+        textAlign: 'right',
+        border: '1px solid black',
+        borderCollapse: 'collapse',
+        padding: '10px',
+        fontSize: '24px',
+        fontWeight: 'bold'
+
+    }
     return(        
         //TODO: use CSS or stylyed components
         <table style={ borders }>
@@ -34,6 +44,10 @@ function PayoutTable({ payouts, results, numBalls}){
                 </tr>
                 );
             })}
+            <tr>
+                <td style={style2} colSpan='2'>Total</td>
+                <td style={style}> { results.reduce((a,b) => a+b,0) }</td>
+            </tr>
             </tbody>
         </table>
 

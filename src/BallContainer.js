@@ -1,4 +1,6 @@
-function BallContainer({ balls }){
+import Ball from './Ball.js';
+
+function BallContainer({ numBalls, draws, matches }){
     const style = {
         justifyContent: 'center',
         display: 'flex',
@@ -11,7 +13,11 @@ function BallContainer({ balls }){
 
     return(
         <div style={style}>
-            {balls}
+            {
+                [...Array(numBalls).keys()].map((id) => {
+                    let _value = [...draws][id];
+                    return <Ball key={id} value={_value} isMatch={matches.has(_value)} /> })
+            }
         </div>
     );
 }

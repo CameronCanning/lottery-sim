@@ -1,10 +1,9 @@
-export function draw(n, range, bonus=0){
+export function draw(n, range){
     const draws = new Set();
     while (draws.size < n){
         draws.add(Math.ceil(Math.random()*range));
     }
-    let bonusNum = Math.ceil(Math.random()*bonus);
-    return [draws, bonusNum]
+    return draws
 }
 
 export function calcMatches(setA, setB){
