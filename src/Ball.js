@@ -1,23 +1,35 @@
-function Ball({value, isMatch}){
-    const style = {
-        backgroundColor: isMatch ? '#fab1a0' : '#f5f5f5', 
-        borderRadius: 100, 
-        flexShrink: 0,
-        textAlign: 'center',
-        width: '100px', 
-        height: '100px', 
-        lineHeight: '100px',
-        margin: 10,
-        fontSize: 75,
-        //boxShadow: '0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24)'
-        boxShadow: '0 0 0 1pt black'
-        
-        };
+import styled from 'styled-components';
 
+const StyledBall = styled.div`
+    background-color: ${props => props.isMatch ? props.theme.primary : props.theme.bg1};
+    color: ${props => props.isMatch ? props.theme.secondary : 'black'};
+    width: 15%;
+    height: 0;
+    padding-bottom: 15%;
+    font-size: 4em;
+    text-align: center;
+    border-radius: 100px;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    line-height: 147px;
+    position: relative;
+`
+
+const CenteredPar = styled.p`
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin: 0;
+    marginRight: -50%;
+    transform: translate(-50%, -50%);
+`
+
+
+function Ball({value, isMatch}){
     return(
-        <div style={style}>
-            {value < 10 ? '0'+value : value}
-        </div>)
+        <StyledBall isMatch={isMatch}>
+            <CenteredPar>{value < 10 ? '0'+value : value}</CenteredPar>
+        </StyledBall>)
 }
 
 export default Ball;

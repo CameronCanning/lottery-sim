@@ -1,38 +1,73 @@
-import React, { useState, useEffect } from 'react';
-import { draw } from './Lottery';
+import React from 'react';
+import styled from 'styled-components'
 
-function Cell({ value, picks, numBalls, setPicks, pressed }){
-    const style = {
-        width: '50px',
-        height: '50px',
-        border: '1px solid black',
-        margin: '2px',
-        borderRadius: 3,
-        fontSize: 30, 
-        lineHeight: '50px',    
-        backgroundColor: pressed ? '#fab1a0' : '#f5f5f5',    
+const StyledCell = styled.div`
+    visibility: ${props => props.isEmpty ? 'hidden' : 'visible'};
+    background-color: ${props => props.pressed ? props.theme.primary : props.theme.secondary};
+    color: ${props => props.pressed ? props.theme.secondary : 'black'};
+    width: 18%;
+    height: 0;
+    padding-bottom: 18%;
+    font-size: 1.5em;
+    margin-right: 5px;
+    border-radius: 10px;
+    align-text: center;    
+    position: relative;
+    transition: filter 0.3s;
+    &:hover{
+        cursor: pointer;
+        filter: contrast(95%);
     }
-    
+    &:active{
+        filter: contrast(70%);
+    }
+`
+
+const CenteredPar = styled.p`
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    margin: 0;
+    marginRight: -50%;
+    transform: translate(-50%, -50%);
+    opacity: 1;
+`
+
+function Cell({ value, picks, numBalls, setPicks, pressed, isEmpty}){    
     const onClick = () => {
         if (!picks.has(value)){
             if(picks.size < numBalls){
                 const tempPicks = new Set([...picks]);
                 tempPicks.add(value);
                 setPicks(tempPicks)
-                //setPressed(1);
             }
         }
         else {
             const tempPicks = new Set([...picks]);
             tempPicks.delete(value);
             setPicks(tempPicks);
-            //setPressed(0);
         }
     }
+    const style = {
+        position: 'absolute',
+        top: '50%',
+        left: '50%',
+        margin: '0',
+        marginRight: '-50%',
+        transform: 'translate(-50%, -50%)',
+    }
+    let cell;
+    if (isEmpty){
+        cell = <StyledCell isEmpty></StyledCell>
+    }
+    else{
+        cell = 
+            <StyledCell pressed={ pressed } onClick={ onClick }>
+                <CenteredPar>{value < 10 ? '0' + value : value }</CenteredPar>
+            </StyledCell>
+    }
     return(
-        <div style={ style } onClick={ onClick }>
-            {value < 10 ? '0' + value : value }
-        </div>
+        cell
     );
 }
 

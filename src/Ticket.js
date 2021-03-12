@@ -1,41 +1,56 @@
 import Cell from './Cell.js';
+import styled from 'styled-components'
+import Panel from './Panel.js'
+
+const StyledTicket = styled(Panel)`
+    display: flex;
+    flex-direction: column;
+    width: auto;
+    justify-content: space-evenly;
+    text-align: center;
+    min-width: 30%;
+    float: left;
+`
+
+const Row = styled.div`
+    display: flex;
+    margin-left: 5px;
+    margin-bottom: 5px;
+    justify-content: space-evenly;
+`
 
 function Ticket({ range, numBalls, picks, setPicks }){
-    const style = {
-        backgroundColor: '#ecf0f1',
-        display: 'flex',
-        flexWrap: 'wrap',
-        borderRadius: 0, 
-        width: '280px',
-        margin: 'auto',
-        border: '1px solid black',
-        textAlign: 'center',
-        flexShrink: '0',
+    const width = 5;
+    const height = Math.ceil(range/width);
+    const rows = [...Array(height)];
+    for (let i = 0; i < height; i++) {
+        const row = [...Array(width)];
+        for (let j = 0; j < width; j++) {
+            const id = (i * width) + j;
+            if (id < range){
+                row[j] = 
+                <Cell 
+                    key={ id } 
+                    value={ id + 1 } 
+                    picks ={ picks } 
+                    numBalls={ numBalls } 
+                    setPicks={ setPicks }
+                    pressed={ picks.has(id+1) }/>;   
+            }
+            else{
+                row[j] = 
+                <Cell isEmpty={ true } key={id}/>
+            }
+              
+        }
+        rows[i] = <Row key={i}>{ row }</Row>;
     }
-
-    const cells = [...Array(range).keys()].map((id) => 
-        <Cell 
-            key={ id } 
-            value={ id+1 } 
-            picks = { picks } 
-            numBalls={ numBalls } 
-            setPicks={ setPicks }
-            pressed={ picks.has(id+1) }/>);
-    /** 
-     
-    cells.push(
-        <Cell 
-            key={ -1 } 
-            value={ 'R' } 
-            picks = { picks } 
-            numBalls={ numBalls } 
-            setPicks={ setPicks }/>);
-    */
+    
     return(
-        <div style={ style }>
-            <h2 style={ {width :'100%'} }>Ticket</h2>
-            { cells }
-        </div>
+        <StyledTicket>
+            <h2 style={ {width :'100%', font: '24px'} }>Ticket</h2>
+            { rows }
+        </StyledTicket>
     );
 }
 
