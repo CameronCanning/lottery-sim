@@ -172,7 +172,7 @@ function App() {
                         </ControlPanelLeft>
                         <ControlPanelRight>
                             <StyledLabel htmlFor='speed'>Speed</StyledLabel>
-                            <Slider id='speed' styles={sliderStyles} axis='x' xmin={1} xmax={25} x={speed} onChange={ ({x}) => setSpeed(x)}/>
+                            <Slider id='speed' styles={sliderStyles} axis='x' xmin={1} xmax={20} x={speed} onChange={ ({x}) => setSpeed(x)}/>
                             <StyledLabel htmlFor='draws'>Draws</StyledLabel>
                             <StyledInput 
                                 id='draws' 
