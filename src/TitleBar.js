@@ -4,7 +4,7 @@ import Panel from './Panel';
 
 const Title = styled.h2`
     padding: 10px;
-    color: ${props => props.theme.primary};
+    !#color: ${props => props.theme.primary};
 `
 export default function TitleBar() {
     return(

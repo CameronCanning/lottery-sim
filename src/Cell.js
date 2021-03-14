@@ -30,7 +30,6 @@ const CenteredPar = styled.p`
     margin: 0;
     marginRight: -50%;
     transform: translate(-50%, -50%);
-    opacity: 1;
 `
 
 function Cell({ value, picks, numBalls, setPicks, pressed, isEmpty}){    

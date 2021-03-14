@@ -4,10 +4,21 @@ import './App.css';
 import BallContainer from './BallContainer.js';
 import Ticket from './Ticket.js';
 import PayoutTable from './PayoutTable.js';
-import styled, { ThemeProvider } from 'styled-components';
+import { ThemeProvider } from 'styled-components';
 import TitleBar from './TitleBar.js';
-import Panel from './Panel.js';
 import Slider from 'react-input-slider';
+import Switch from 'react-switch';
+import {StyledApp,
+        AppContainer,
+        ColumnContainer,
+        ControlPanel,
+        ControlPanelLeft,
+        ControlPanelRight,
+        StyledButton,
+        StyledLabel,
+        StyledInput,} 
+        from './appStyles.js';
+
 
 const theme = {
     primary: '#fab1a0',
@@ -18,7 +29,7 @@ const theme = {
 
 const sliderStyles = {
     track: {
-        backgroundColor: theme.primary,
+        backgroundColor: theme.secondary,
         width: '70%',
         margin: 'auto',
     },
@@ -31,93 +42,16 @@ const sliderStyles = {
     }
 };
 
-const StyledApp = styled.div`
-    width: 1000px;
-    margin: auto;
-`
-const AppContainer = styled.div`
-    display: flex;
-`
-const ColumnContainer = styled.div`
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    width: 70%;
-`
-
-const ControlPanel = styled.div`
-    display: flex;
-    !#background-color: ${props => props.theme.bg2};
-    border-radius: 10px;
-    min-height: 170px;
-`
-
-const ControlPanelLeft = styled(Panel)`
-    display: flex;
-    flex-direction: column;
-    justify-content: space-evenly;
-    width: 30%;
-    text-align: center;
-    padding: 10px;
-`
-const ControlPanelRight = styled(Panel)`
-    display: flex;
-    flex-direction: column;
-    justify-content: space-evenly;
-    width: 70%;
-    text-align: center;
-    padding: 10px;
-`
-const StyledButton = styled.button`
-    background-color: ${props => props.primary ? props.theme.primary : props.theme.secondary};
-    color: ${props => props.primary ? props.theme.secondary : 'black'};
-    min-height: 40px;
-    outline: none;
-    width: 70%;
-    margin: auto;
-    margin-top: 10px;
-    margin-bottom: 5px;
-    border: none;
-    border-radius: 5px;
-    font-size: 16px;
-    text-decoration: none;
-    font-weight: bold;
-    text-align: center;
-    transition: filter 0.3s;
-    &:hover{
-        cursor: pointer;
-        filter: contrast(95%);
-    }
-    &:active{
-        filter: contrast(70%);
-    }
-`
-const StyledLabel = styled.label`
-    font-weight: bold;
-    font-size: 24px;
-    margin:10px;
-`
-
-const StyledInput = styled.input`
-
-`
-
-const StyledCheckBox = styled.input`
-
-`
-
 function App() {
-    //setup state
     const [numBalls, setNumBalls] = useState(6);
     const [range, setRange] = useState(49);
-    const [numDraws, setNumDraws] = useState(1);
-    //lottery state
+    const [totalDraws, setTotalDraws] = useState(1);
+    const [remainingDraws, setRemainingDraws] = useState(1);
     const [draws, setDraws] = useState([...Array(numBalls)].fill('-'));
     const [picks, setPicks] = useState(draw(numBalls, range));
     const [matches, setMatches] = useState(new Set());
     const [payouts, setPayouts] = useState([0, 0, 3, 10, 100, 2500, 10000000]);
-    const [quickPick, setQuickPick] = useState(false);
-    //winnings
+    const [quickPick, setQuickPick] = useState(true);
     const [price, setPrice] = useState(3);
     const [results, setResults] = useState([...Array(numBalls + 1)].fill(0));
     const [total, setTotal] = useState(0);
@@ -140,13 +74,11 @@ function App() {
                 tempResults[matches.size] += 1;
                 return tempResults;
             });
-
             setTotal(total => total - price + payouts[matches.size]);
+            setRemainingDraws(remainingDraws => remainingDraws - 1);
             setDraws(currentDraws);
             setMatches(matches)
-
             count = count - 1;
-            console.log(count);
             if (count < 1) {
                 stopDraw(id);
             }
@@ -158,6 +90,7 @@ function App() {
     const stopDraw = (id = intervalId) => {
         setDrawing(false);
         clearInterval(id);
+        setRemainingDraws(totalDraws);
     };
 
     const handleInputChange = ( e ) => {
@@ -165,11 +98,12 @@ function App() {
         if (num < 0){
             num = 1;
         }
-       setNumDraws(num);
+       setRemainingDraws(num);
+       setTotalDraws(num);
     };
 
     const onClickDraw = () => { 
-        drawing ? stopDraw() : doDraw(numDraws)
+        drawing ? stopDraw() : doDraw(remainingDraws)
     };
 
     const onClickReset = () => {
@@ -180,12 +114,26 @@ function App() {
     };
     const formatTotal = () => {
         if (total < 0){
-            return '-$' + total.toLocaleString()*-1;
+            
+            return '-$' + (total*-1).toLocaleString();
         }
         else{
             return '$' + total.toLocaleString();    
         }
-        
+    }
+
+    const switchProps = {
+        onChange: ()=>setQuickPick( x => !x),
+        checked: quickPick,
+        uncheckedIcon: false,
+        checkedIcon: false,
+        offColor: theme.secondary,
+        onColor: theme.primary,
+        offHandleColor: theme.secondary,
+        onHandleColor: theme.primary,
+        handleDiameter: 18,
+        height: 10,
+        width: 28,
     }
 
     return (
@@ -199,16 +147,25 @@ function App() {
                         <ControlPanelLeft>
                             <h2 style={{ fontSize: '24px', margin: '10px' }}>{'Total'}</h2>
                             <h2 style={{ fontSize: '24px', margin: '10px', marginTop:'0' }}>{formatTotal()}</h2>      
-                            <StyledButton primary onClick={onClickDraw}>{drawing && numDraws  ? 'Stop' : 'Draw'}</StyledButton>
+                            <StyledButton primary onClick={onClickDraw}>{drawing && remainingDraws  ? 'Stop' : 'Draw'}</StyledButton>
                             <StyledButton onClick={onClickReset}>{'Reset'}</StyledButton>
                         </ControlPanelLeft>
                         <ControlPanelRight>
                             <StyledLabel htmlFor='speed'>Speed</StyledLabel>
                             <Slider id='speed' styles={sliderStyles} axis='x' xmin={1} xmax={25} x={speed} onChange={ ({x}) => setSpeed(x)}/>
-                            
-                            <input style={{height:'50%', fontSize: '24px'}} type='number' min={1} max={10000} value={numDraws} onChange={handleInputChange}/>
-                            <input type='checkbox' onChange={e => {setQuickPick(e.target.checked)}}/>
+                            <StyledLabel htmlFor='draws'>Draws</StyledLabel>
+                            <StyledInput 
+                                id='draws' 
+                                type='number' 
+                                min={1} 
+                                max={10000} 
+                                value={remainingDraws === totalDraws ? totalDraws : remainingDraws} 
+                                onChange={handleInputChange}
+                                disabled={drawing ? true : false}/>
                             <StyledLabel>Quickpick</StyledLabel>
+                            <div>
+                                <Switch {...switchProps}/>
+                            </div>
                         </ControlPanelRight>
                     </ControlPanel>
                     <PayoutTable payouts={payouts} results={results} numBalls={numBalls} />
