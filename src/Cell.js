@@ -9,7 +9,7 @@ const StyledCell = styled.div`
     height: 0;
     padding-bottom: 18%;
     font-size: 1.5em;
-    margin-right: 5px;
+    margin-right: 10px;
     border-radius: 10px;
     align-text: center;    
     position: relative;

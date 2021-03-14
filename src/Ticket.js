@@ -10,16 +10,17 @@ const StyledTicket = styled(Panel)`
     text-align: center;
     min-width: 30%;
     float: left;
+    pointer-events: ${props => props.drawing ? 'none' : 'auto'};
 `
 
 const Row = styled.div`
     display: flex;
-    margin-left: 5px;
-    margin-bottom: 5px;
+    margin-left: 10px;
+    margin-bottom: 10px;
     justify-content: space-evenly;
 `
 
-function Ticket({ range, numBalls, picks, setPicks }){
+function Ticket({ range, numBalls, picks, setPicks, drawing }){
     const width = 5;
     const height = Math.ceil(range/width);
     const rows = [...Array(height)];
@@ -47,7 +48,7 @@ function Ticket({ range, numBalls, picks, setPicks }){
     }
     
     return(
-        <StyledTicket>
+        <StyledTicket drawing={drawing}>
             <h2 style={ {width :'100%', font: '24px'} }>Ticket</h2>
             { rows }
         </StyledTicket>
