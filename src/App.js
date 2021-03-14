@@ -59,32 +59,49 @@ function App() {
     const [drawing, setDrawing] = useState(false);
     const [intervalId, setIntervalId] = useState(null);
 
-    const doDraw = (count) => {
-        if (count < 1) return;
-        setDrawing(true);
-        const id = setInterval(() => {
-            let currentPicks;
-            quickPick ? currentPicks = draw(numBalls, range) : currentPicks = picks;
-            setPicks(currentPicks);
-            let currentDraws = draw(numBalls, range);
-            let matches = calcMatches(currentDraws, currentPicks);
-            
-            setResults((results) => {
-                const tempResults = [...results];
-                tempResults[matches.size] += 1;
-                return tempResults;
-            });
-            setTotal(total => total - price + payouts[matches.size]);
-            setRemainingDraws(remainingDraws => remainingDraws - 1);
-            setDraws(currentDraws);
-            setMatches(matches)
+    const doDraw = () => {
+        let currentPicks;
+        quickPick ? currentPicks = draw(numBalls, range) : currentPicks = picks;
+        setPicks(currentPicks);
+        let currentDraws = draw(numBalls, range);
+        let matches = calcMatches(currentDraws, currentPicks);
+        
+        setResults((results) => {
+            const tempResults = [...results];
+            tempResults[matches.size] += 1;
+            return tempResults;
+        });
+        setTotal(total => total - price + payouts[matches.size]);
+        setRemainingDraws(remainingDraws => remainingDraws - 1);
+        setDraws(currentDraws);
+        setMatches(matches)   
+    };
+    const drawControl = (count) => {
+        if (picks.size < numBalls) {
+            alert('Please pick your numbers or select quickpick.');
+        }
+        else if (count < 1) return;
+        else if (count == 1) {
+            doDraw();
+            stopDraw();
+        }
+        else {
+            setDrawing(true);
+            doDraw();
             count = count - 1;
-            if (count < 1) {
-                stopDraw(id);
-            }
+            const id = setInterval(() => {
+                doDraw();
+                count = count - 1;
+                if (count < 1) {
+                    stopDraw(id);
+                }
+            }, 1000 / speed);
+            setIntervalId(id);
+        }
+    };
 
-        }, 1000 / speed);
-        setIntervalId(id);        
+    const onClickDraw = () => { 
+        drawing ? stopDraw() : drawControl(remainingDraws)
     };
 
     const stopDraw = (id = intervalId) => {
@@ -102,9 +119,7 @@ function App() {
        setTotalDraws(num);
     };
 
-    const onClickDraw = () => { 
-        drawing ? stopDraw() : doDraw(remainingDraws)
-    };
+    
 
     const onClickReset = () => {
         stopDraw();
@@ -134,6 +149,7 @@ function App() {
         handleDiameter: 18,
         height: 10,
         width: 28,
+        activeBoxShadow: 'none',
     }
 
     return (
@@ -147,8 +163,12 @@ function App() {
                         <ControlPanelLeft>
                             <h2 style={{ fontSize: '24px', margin: '10px' }}>{'Total'}</h2>
                             <h2 style={{ fontSize: '24px', margin: '10px', marginTop:'0' }}>{formatTotal()}</h2>      
-                            <StyledButton primary onClick={onClickDraw}>{drawing && remainingDraws  ? 'Stop' : 'Draw'}</StyledButton>
-                            <StyledButton onClick={onClickReset}>{'Reset'}</StyledButton>
+                            <StyledButton primary onClick={onClickDraw}>
+                                {drawing && remainingDraws ? 'Stop' : 'Draw'}
+                            </StyledButton>
+                            <StyledButton onClick={onClickReset}>
+                                {'Reset'}
+                            </StyledButton>
                         </ControlPanelLeft>
                         <ControlPanelRight>
                             <StyledLabel htmlFor='speed'>Speed</StyledLabel>
@@ -170,7 +190,7 @@ function App() {
                     </ControlPanel>
                     <PayoutTable payouts={payouts} results={results} numBalls={numBalls} />
                 </ColumnContainer>
-                <Ticket range={range} numBalls={numBalls} picks={picks} setPicks={setPicks} />
+                <Ticket range={range} numBalls={numBalls} picks={picks} setPicks={setPicks} drawing={drawing}/>
             </AppContainer>
         </StyledApp>
         </ThemeProvider>
