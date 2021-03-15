@@ -55,6 +55,7 @@ function App() {
     const [intervalId, setIntervalId] = useState(null);
     const [theme, setTheme] = useState(themes.default);
 
+
     const doDraw = () => {
         let currentPicks;
         quickPick ? currentPicks = draw(numBalls, range) : currentPicks = picks;
@@ -73,8 +74,8 @@ function App() {
         setMatches(matches)   
     };
     const drawControl = (count) => {
-        if (picks.size < numBalls) {
-            alert('Please pick your numbers or select quickpick.');
+        if (picks.size < numBalls && !quickPick) {
+            alert('Please pick 6 numbers or select quickpick.');
         }
         else if (count < 1) return;
         else if (count == 1) {
