@@ -1,7 +1,7 @@
 import styled from 'styled-components';
 
 const StyledBall = styled.div`
-    background-color: ${props => props.isMatch ? props.theme.primary : props.theme.bg1};
+    background-color: ${props => props.isMatch ? props.theme.primary : props.theme.secondary};
     color: ${props => props.isMatch ? props.theme.secondary : 'black'};
     width: 15%;
     height: 0;

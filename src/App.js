@@ -20,29 +20,24 @@ import {StyledApp,
         from './appStyles.js';
 
 
-const theme = {
-    primary: '#fab1a0',
-    secondary: '#f5f5f5',
-    bg1: '#f5f5f5',
-    bg2: '#ffffff',
-}
-
-const sliderStyles = {
-    track: {
-        backgroundColor: theme.secondary,
-        width: '70%',
-        margin: 'auto',
+const themes = {
+    default: {
+        primary: '#fab1a0',
+        secondary: '#f5f5f5',
+        bg1: '#f5f5f5',
+        bg2: '#ffffff',
     },
-    active: {
-        backgroundColor: theme.primary,
-    },    
-    thumb: {
-        backgroundColor: theme.primary,
-        boxShadow: 'none',
+    dark: {
+        primary: '#fab1a0',
+        secondary: '#f5f5f5',
+        bg1: '#252525',
+        bg2: '#414141',
     }
-};
+}        
+
 
 function App() {
+    document.body.style.backgroundColor = themes.default.bg1;
     const [numBalls, setNumBalls] = useState(6);
     const [range, setRange] = useState(49);
     const [totalDraws, setTotalDraws] = useState(1);
@@ -58,6 +53,7 @@ function App() {
     const [speed, setSpeed] = useState(1);
     const [drawing, setDrawing] = useState(false);
     const [intervalId, setIntervalId] = useState(null);
+    const [theme, setTheme] = useState(themes.default);
 
     const doDraw = () => {
         let currentPicks;
@@ -138,7 +134,7 @@ function App() {
     }
 
     const switchProps = {
-        onChange: ()=>setQuickPick( x => !x),
+        onChange: ()=>setQuickPick( x => !x ),
         checked: quickPick,
         uncheckedIcon: false,
         checkedIcon: false,
@@ -152,6 +148,21 @@ function App() {
         activeBoxShadow: 'none',
     }
 
+    const sliderStyles = {
+        track: {
+            backgroundColor: theme.secondary,
+            width: '70%',
+            margin: 'auto',
+        },
+        active: {
+            backgroundColor: theme.primary,
+        },    
+        thumb: {
+            backgroundColor: theme.primary,
+            boxShadow: 'none',
+        }
+    };
+    
     return (
         <ThemeProvider theme={theme}>
         <StyledApp>        
@@ -161,7 +172,7 @@ function App() {
                 <ColumnContainer>
                     <ControlPanel>
                         <ControlPanelLeft>
-                            <h2 style={{ fontSize: '24px', margin: '10px' }}>{'Total'}</h2>
+                            <h2 style={{ fontSize: '24px', margin: '10px'}}>{'Total'}</h2>
                             <h2 style={{ fontSize: '24px', margin: '10px', marginTop:'0' }}>{formatTotal()}</h2>      
                             <StyledButton primary onClick={onClickDraw}>
                                 {drawing && remainingDraws ? 'Stop' : 'Draw'}
