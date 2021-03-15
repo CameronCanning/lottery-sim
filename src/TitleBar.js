@@ -13,7 +13,6 @@ const StyledGHMark = styled(GHMark)`
     width: 100%;
     height: 100%;
 `
-
 const LogoContainer = styled.div`
     padding: 10px;
     width: 24px;
@@ -23,17 +22,18 @@ const LogoContainer = styled.div`
 `
 const StyledPanel = styled(Panel)`
     display: flex;
-
+    margin-top: 20px;
+    margin-bottom: 20px;
 `
 export default function TitleBar() {
     return(
         <StyledPanel>
             <Title>Lottery Sim</Title>
-                <LogoContainer>
-                    <a href='https://www.github.com/cameroncanning/lottery-sim'>
-                        <StyledGHMark/>
-                    </a>
-                </LogoContainer>                
+            <LogoContainer>
+                <a href='https://www.github.com/cameroncanning/lottery-sim'>
+                    <StyledGHMark/>
+                </a>
+            </LogoContainer>                
         </StyledPanel>
     )
 }
