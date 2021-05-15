@@ -21,6 +21,7 @@ const StyledApp = styled.div`
     margin-top: 10px;
     margin-bottom: 10px;
     color: ${ props => props.theme.font1 };
+    font-weight: 500;
 `
 const AppContainer = styled.div`
     display: flex;
@@ -93,6 +94,7 @@ const StyledInput = styled.input`
     width: 70%;
     margin: auto;
     border: 2px solid ${props => props.theme.primary};
+    opacity: ${props => props.drawing ? '0.5' : '1'};
     background-color: ${props => props.theme.bg3};
     border-radius: 5px;
     color: ${props => props.theme.font1};

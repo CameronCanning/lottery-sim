@@ -112,7 +112,7 @@ function App() {
     const stopDraw = (id = intervalId) => {
         setDrawing(false);
         clearInterval(id);
-        setRemainingDraws(totalDraws);
+        //setRemainingDraws(totalDraws);
     };
 
     const handleInputChange = ( e ) => {
@@ -214,14 +214,15 @@ function App() {
                                             <StyledLabel>Draws</StyledLabel>
                                         </LabelTD>
                                         <ControlTD>
-                                            <StyledInput 
+                                            <StyledInput                                                 
                                                 id='draws' 
                                                 type='number' 
                                                 min={1} 
                                                 max={10000} 
                                                 value={remainingDraws === totalDraws ? totalDraws : remainingDraws} 
                                                 onChange={handleInputChange}
-                                                disabled={drawing ? true : false}/>
+                                                disabled={drawing ? true : false}
+                                                drawing = {drawing}/>
                                         </ControlTD>
                                     </tr>
                                     <tr>
