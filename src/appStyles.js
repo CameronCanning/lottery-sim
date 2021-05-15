@@ -10,14 +10,21 @@ export {
     ControlPanelRight,
     StyledButton,
     StyledLabel,
-    StyledInput
+    StyledInput,
+    ControlLabelWrapper,
+    ControlTD,
+    LabelTD
 }
 const StyledApp = styled.div`
-    width: 1000px;
+    width: 900px;
     margin: auto;
+    margin-top: 10px;
+    margin-bottom: 10px;
 `
 const AppContainer = styled.div`
     display: flex;
+    margin-bottom: 0px;
+    height: 100%;
 `
 const ColumnContainer = styled.div`
     display: flex;
@@ -28,7 +35,6 @@ const ColumnContainer = styled.div`
 
 const ControlPanel = styled.div`
     display: flex;
-    !#background-color: ${props => props.theme.bg2};
     border-radius: 10px;
     min-height: 170px;
 `
@@ -39,7 +45,7 @@ const ControlPanelLeft = styled(Panel)`
     justify-content: space-evenly;
     width: 30%;
     text-align: center;
-    padding: 10px;
+    //padding: 10px;
 `
 const ControlPanelRight = styled(Panel)`
     display: flex;
@@ -47,17 +53,17 @@ const ControlPanelRight = styled(Panel)`
     justify-content: space-evenly;
     width: 70%;
     text-align: center;
-    padding: 10px;
+    padding: 5px;
 `
 const StyledButton = styled.button`
-    background-color: ${props => props.primary ? props.theme.primary : props.theme.secondary};
-    color: ${props => props.primary ? props.theme.secondary : 'black'};
-    min-height: 40px;
+    background-color: ${props => props.primary ? props.theme.primary : props.theme.bg3};
+    color: ${props => props.primary ? props.theme.bg3 : props.theme.secondary};
+    min-height: 35px;
     outline: none;
     width: 70%;
     margin: auto;
-    margin-top: 10px;
-    margin-bottom: 5px;
+    margin-top: 0;
+    margin-bottom: 10px;
     border: none;
     border-radius: 5px;
     font-size: 16px;
@@ -65,7 +71,6 @@ const StyledButton = styled.button`
     font-weight: bold;
     text-align: center;
     transition: filter 0.3s;
-    //box-shadow: 0 1px 3px rgba(0,0,0,0.12), 0 1px 2px rgba(0,0,0,0.24);
     &:hover{
         cursor: pointer;
         filter: contrast(95%);
@@ -74,10 +79,11 @@ const StyledButton = styled.button`
         filter: contrast(70%);
     }
 `
-const StyledLabel = styled.label`
+const StyledLabel = styled.p`
     font-weight: bold;
-    font-size: 24px;
-    margin:10px;
+    font-size: 1.25em;
+    margin: 10px;
+    ${props => props.first ? 'margin-top: 5px': ''};
 `
 
 const StyledInput = styled.input`
@@ -87,10 +93,38 @@ const StyledInput = styled.input`
     width: 70%;
     margin: auto;
     border: 2px solid ${props => props.theme.primary};
+    background-color: ${props => props.theme.bg2};
     border-radius: 5px;
+    color: ${props => props.theme.secondary};
     &:focus {
         outline: none;
         border: 2px solid ${props => props.theme.primary};
         box-shadow: 0 0 5px ${props => props.theme.primary};
     }
+    ::-webkit-inner-spin-button{
+        -webkit-appearance: none; 
+        margin: 0; 
+    }
+    ::-webkit-outer-spin-button{
+        -webkit-appearance: none; 
+        margin: 0; 
+    }   
+    &:input[type=number] {
+        -moz-appearance: textfield;
+    }
+}
+`
+
+const ControlLabelWrapper = styled.div`
+    display: flex;
+    justify-content: space-between;
+`
+const ControlTD = styled.td`
+    text-align: center;
+    width: 100%;
+`
+const LabelTD = styled.td`
+    text-align: left;
+    width: 0;
+    white-space: nowrap;
 `

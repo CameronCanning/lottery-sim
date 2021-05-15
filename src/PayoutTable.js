@@ -1,34 +1,33 @@
 import styled from 'styled-components';
+import Panel from './Panel.js'
 
-const StyledPayoutTable = styled.div`
-    background-color: ${props => props.theme.bg2};
-    margin: 10px;
+const StyledPayoutTable = styled(Panel)`
+    margin: 5px;
     border-radius: 10px;
     float: right;
-    height: auto%;
 `
 
 const StyledTable = styled.table`
     border-collapse: collapse;
     border-style: hidden;
     width: 100%;
-    border: '1px solid red';
 
 `
 
 const StyledTH = styled.th`
     padding: 10px;
     border-collapse: collapse;
-    border: 1px solid ${props => props.theme.bg1};
-    font-size: 24px;
+    border: 2px solid ${props => props.theme.bg3};
+    font-size: 1.25em;
 `
 
 const StyledTD = styled.td`
-    border: 1px solid ${props => props.theme.bg1};
+    border: 1px solid black;
     text-align: right;
     borderCollapse: collapse;
-    padding: 10px;
-    font-size: 24px;
+    padding: 8px;
+    font-size: 1.25em;
+    border: 2px solid ${props => props.theme.bg3};
 `
 
 const BoldStyledTD = styled(StyledTD)`
@@ -36,7 +35,6 @@ const BoldStyledTD = styled(StyledTD)`
 `
 function PayoutTable({ payouts, results, numBalls}){  
     return(        
-        //TODO: use CSS or stylyed components
         <StyledPayoutTable>
             <StyledTable>
                 <thead>

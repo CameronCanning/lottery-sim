@@ -12,6 +12,8 @@ const Title = styled.h2`
 const StyledGHMark = styled(GHMark)`
     width: 100%;
     height: 100%;
+    -webkit-filter: ${props => props.theme.id == 'dark' ? 'invert(1)' : ''};
+    filter: ${props => props.theme.id == 'dark' ? 'invert(1)' : ''};
 `
 const LogoContainer = styled.div`
     padding: 10px;
@@ -22,11 +24,15 @@ const LogoContainer = styled.div`
 `
 const StyledPanel = styled(Panel)`
     display: flex;
-    margin-top: 20px;
-    margin-bottom: 20px;
+    margin-bottom: 10px;
+    margin-top: 0px;
+    width: auto;
+
 `
+
 export default function TitleBar() {
     return(
+
         <StyledPanel>
             <Title>Lottery Sim</Title>
             <LogoContainer>
@@ -35,6 +41,7 @@ export default function TitleBar() {
                 </a>
             </LogoContainer>                
         </StyledPanel>
+
     )
 }
 

@@ -1,15 +1,14 @@
 import React from 'react';
 import styled from 'styled-components'
-
+//background-color: ${props => props.pressed ? props.theme.primary : props.theme.secondary};
 const StyledCell = styled.div`
     visibility: ${props => props.isEmpty ? 'hidden' : 'visible'};
-    background-color: ${props => props.pressed ? props.theme.primary : props.theme.secondary};
-    color: ${props => props.pressed ? props.theme.secondary : 'black'};
-    width: 18%;
+    background-color: ${props => props.pressed ? props.theme.primary : props.theme.bg3};
+    color: ${props => props.pressed ? props.theme.bg3 : ''};
+    width: 16%;
     height: 0;
-    padding-bottom: 18%;
-    font-size: 1.5em;
-    margin-right: 10px;
+    padding-bottom: 16%;
+    font-size: 1.25em;
     border-radius: 10px;
     align-text: center;    
     position: relative;
@@ -47,14 +46,7 @@ function Cell({ value, picks, numBalls, setPicks, pressed, isEmpty}){
             setPicks(tempPicks);
         }
     }
-    const style = {
-        position: 'absolute',
-        top: '50%',
-        left: '50%',
-        margin: '0',
-        marginRight: '-50%',
-        transform: 'translate(-50%, -50%)',
-    }
+
     let cell;
     if (isEmpty){
         cell = <StyledCell isEmpty></StyledCell>

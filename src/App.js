@@ -16,28 +16,33 @@ import {StyledApp,
         ControlPanelRight,
         StyledButton,
         StyledLabel,
-        StyledInput,} 
+        StyledInput,
+        ControlTD,
+        LabelTD} 
         from './appStyles.js';
 
 
 const themes = {
     default: {
+        id: 'default',
         primary: '#fab1a0',
         secondary: '#f5f5f5',
-        bg1: '#f5f5f5',
+        bg1: '#ffffff',
         bg2: '#ffffff',
     },
     dark: {
+        id: 'dark',
         primary: '#fab1a0',
-        secondary: '#f5f5f5',
-        bg1: '#252525',
+        secondary: '#f5f5f5',        
+        bg1: '#313131',
         bg2: '#414141',
+        bg3: '#525252',
     }
 }        
 
 
 function App() {
-    document.body.style.backgroundColor = themes.default.bg1;
+    
     const [numBalls, setNumBalls] = useState(6);
     const [range, setRange] = useState(49);
     const [totalDraws, setTotalDraws] = useState(1);
@@ -53,7 +58,9 @@ function App() {
     const [speed, setSpeed] = useState(1);
     const [drawing, setDrawing] = useState(false);
     const [intervalId, setIntervalId] = useState(null);
-    const [theme, setTheme] = useState(themes.default);
+    const [theme, setTheme] = useState(themes.dark);
+
+    document.body.style.backgroundColor = theme.bg1;
 
 
     const doDraw = () => {
@@ -139,9 +146,9 @@ function App() {
         checked: quickPick,
         uncheckedIcon: false,
         checkedIcon: false,
-        offColor: theme.secondary,
+        offColor: theme.bg3,
         onColor: theme.primary,
-        offHandleColor: theme.secondary,
+        offHandleColor: theme.bg3,
         onHandleColor: theme.primary,
         handleDiameter: 18,
         height: 10,
@@ -151,7 +158,7 @@ function App() {
 
     const sliderStyles = {
         track: {
-            backgroundColor: theme.secondary,
+            backgroundColor: theme.bg3,
             width: '70%',
             margin: 'auto',
         },
@@ -172,9 +179,8 @@ function App() {
             <AppContainer>
                 <ColumnContainer>
                     <ControlPanel>
-                        <ControlPanelLeft>
-                            <h2 style={{ fontSize: '24px', margin: '10px'}}>{'Total'}</h2>
-                            <h2 style={{ fontSize: '24px', margin: '10px', marginTop:'0' }}>{formatTotal()}</h2>      
+                        <ControlPanelLeft> 
+                            <h1 style={{ fontSize: '2em', margin: '10px', marginTop:'0', fontWeight: 'bold'}}>{formatTotal()}</h1>
                             <StyledButton primary onClick={onClickDraw}>
                                 {drawing && remainingDraws ? 'Stop' : 'Draw'}
                             </StyledButton>
@@ -183,21 +189,41 @@ function App() {
                             </StyledButton>
                         </ControlPanelLeft>
                         <ControlPanelRight>
-                            <StyledLabel htmlFor='speed'>Speed</StyledLabel>
-                            <Slider id='speed' styles={sliderStyles} axis='x' xmin={1} xmax={20} x={speed} onChange={ ({x}) => setSpeed(x)}/>
-                            <StyledLabel htmlFor='draws'>Draws</StyledLabel>
-                            <StyledInput 
-                                id='draws' 
-                                type='number' 
-                                min={1} 
-                                max={10000} 
-                                value={remainingDraws === totalDraws ? totalDraws : remainingDraws} 
-                                onChange={handleInputChange}
-                                disabled={drawing ? true : false}/>
-                            <StyledLabel>Quickpick</StyledLabel>
-                            <div>
-                                <Switch {...switchProps}/>
-                            </div>
+                                <table>
+                                    <tr>
+                                        <LabelTD>
+                                            <StyledLabel first>Speed</StyledLabel>
+                                        </LabelTD>
+                                        <ControlTD>
+                                            <Slider id='speed' styles={sliderStyles} axis='x' xmin={1} xmax={20} x={speed} onChange={ ({x}) => setSpeed(x)}/>
+                                        </ControlTD>
+                                    </tr>
+                                    <tr>
+                                        <LabelTD>
+                                            <StyledLabel>Draws</StyledLabel>
+                                        </LabelTD>
+                                        <ControlTD>
+                                            <StyledInput 
+                                                id='draws' 
+                                                type='number' 
+                                                min={1} 
+                                                max={10000} 
+                                                value={remainingDraws === totalDraws ? totalDraws : remainingDraws} 
+                                                onChange={handleInputChange}
+                                                disabled={drawing ? true : false}/>
+                                        </ControlTD>
+                                    </tr>
+                                    <tr>
+                                        <LabelTD>
+                                            <StyledLabel>Quickpick</StyledLabel>
+                                        </LabelTD>
+                                        <ControlTD>
+                                            <div style={{width: '100%', paddingTop:'4px'}}>
+                                            <Switch {...switchProps}/>
+                                            </div>
+                                        </ControlTD>
+                                    </tr>
+                                </table>
                         </ControlPanelRight>
                     </ControlPanel>
                     <PayoutTable payouts={payouts} results={results} numBalls={numBalls} />

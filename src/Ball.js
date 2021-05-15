@@ -1,8 +1,8 @@
 import styled from 'styled-components';
 
 const StyledBall = styled.div`
-    background-color: ${props => props.isMatch ? props.theme.primary : props.theme.secondary};
-    color: ${props => props.isMatch ? props.theme.secondary : 'black'};
+    background-color: ${props => props.isMatch ? props.theme.primary : props.theme.bg3};
+    color: ${props => props.isMatch ? props.theme.bg3 : ''};
     width: 15%;
     height: 0;
     padding-bottom: 15%;
@@ -28,7 +28,7 @@ const CenteredPar = styled.p`
 function Ball({value, isMatch}){
     return(
         <StyledBall isMatch={isMatch}>
-            <CenteredPar>{value < 10 ? '0'+value : value}</CenteredPar>
+            <CenteredPar>{value < 10 ? '0' + value : value}</CenteredPar>
         </StyledBall>)
 }
 

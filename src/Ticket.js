@@ -1,25 +1,38 @@
 import Cell from './Cell.js';
 import styled from 'styled-components'
 import Panel from './Panel.js'
+import { StyledLabel } from './appStyles.js'
 
 const StyledTicket = styled(Panel)`
     display: flex;
+    justify-content: space-between;
     flex-direction: column;
-    width: auto;
-    justify-content: space-evenly;
+    width: 30%;
     text-align: center;
-    min-width: 30%;
-    float: left;
+    height: auto;
+    align-items: center;
+`
+const CellContainer = styled.div`
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    
+    text-align: center;
     pointer-events: ${props => props.drawing ? 'none' : 'auto'};
+    justify-content: space-evenly;
 `
 
 const Row = styled.div`
     display: flex;
-    margin-left: 10px;
-    margin-bottom: 10px;
+    width: 100%;
+    margin-bottom: 7px;
     justify-content: space-evenly;
+    
 `
-
+const Title = styled.p`
+    font-weight: bold;
+    font-size: 1.5em;
+`
 function Ticket({ range, numBalls, picks, setPicks, drawing }){
     const width = 5;
     const height = Math.ceil(range/width);
@@ -48,9 +61,11 @@ function Ticket({ range, numBalls, picks, setPicks, drawing }){
     }
     
     return(
-        <StyledTicket drawing={drawing}>
-            <h2 style={ {width :'100%', font: '24px'} }>Ticket</h2>
-            { rows }
+        <StyledTicket>
+            <Title>Ticket</Title>
+            <CellContainer drawing={drawing}>      
+                { rows }
+            </CellContainer>
         </StyledTicket>
     );
 }

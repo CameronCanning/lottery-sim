@@ -9,7 +9,14 @@ body {
   -moz-user-select: none; /* Firefox */
   -ms-user-select: none; /* IE10+/Edge */
   user-select: none; /* Standard */
+  color: #f5f5f5;
+}
 
+
+html, body{
+  margin: 0;
+  padding: 0;
+  overflow: auto;
 }
 
 code {
