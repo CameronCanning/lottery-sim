@@ -22,7 +22,6 @@ const StyledTH = styled.th`
 `
 
 const StyledTD = styled.td`
-    border: 1px solid black;
     text-align: right;
     borderCollapse: collapse;
     padding: 8px;

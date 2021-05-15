@@ -1,7 +1,6 @@
 import Cell from './Cell.js';
 import styled from 'styled-components'
 import Panel from './Panel.js'
-import { StyledLabel } from './appStyles.js'
 
 const StyledTicket = styled(Panel)`
     display: flex;

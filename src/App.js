@@ -21,28 +21,30 @@ import {StyledApp,
         LabelTD} 
         from './appStyles.js';
 
-
 const themes = {
-    default: {
-        id: 'default',
+    light: {
+        id: 'light',
         primary: '#fab1a0',
-        secondary: '#f5f5f5',
+        secondary: '#000000',
+        font1: '#525252',
+        font2: '#525252',
         bg1: '#ffffff',
-        bg2: '#ffffff',
+        bg2: '#f5f5f5',
+        bg3: '#e6e6e6'
     },
     dark: {
         id: 'dark',
         primary: '#fab1a0',
-        secondary: '#f5f5f5',        
+        secondary: '#f5f5f5',       
+        font1: '#f5f5f5',
+        font2: '#525252',
         bg1: '#313131',
         bg2: '#414141',
         bg3: '#525252',
     }
 }        
 
-
 function App() {
-    
     const [numBalls, setNumBalls] = useState(6);
     const [range, setRange] = useState(49);
     const [totalDraws, setTotalDraws] = useState(1);
@@ -58,10 +60,9 @@ function App() {
     const [speed, setSpeed] = useState(1);
     const [drawing, setDrawing] = useState(false);
     const [intervalId, setIntervalId] = useState(null);
-    const [theme, setTheme] = useState(themes.dark);
-
+    const [theme, setTheme] = useState(themes.light);
     document.body.style.backgroundColor = theme.bg1;
-
+   
 
     const doDraw = () => {
         let currentPicks;
@@ -142,7 +143,7 @@ function App() {
     }
 
     const switchProps = {
-        onChange: ()=>setQuickPick( x => !x ),
+        onChange: () => setQuickPick( x => !x ),
         checked: quickPick,
         uncheckedIcon: false,
         checkedIcon: false,
@@ -174,7 +175,9 @@ function App() {
     return (
         <ThemeProvider theme={theme}>
         <StyledApp>        
-            <TitleBar/>
+            <TitleBar 
+                onChange = { () => theme.id === 'light' ? setTheme(themes.dark) : setTheme(themes.light)}
+                theme = { theme } />
             <BallContainer numBalls={numBalls} draws={draws} matches={matches}/>
             <AppContainer>
                 <ColumnContainer>
@@ -195,7 +198,15 @@ function App() {
                                             <StyledLabel first>Speed</StyledLabel>
                                         </LabelTD>
                                         <ControlTD>
-                                            <Slider id='speed' styles={sliderStyles} axis='x' xmin={1} xmax={20} x={speed} onChange={ ({x}) => setSpeed(x)}/>
+                                            <Slider 
+                                                id='speed' 
+                                                styles={sliderStyles} 
+                                                axis='x' 
+                                                xmin={1} 
+                                                xmax={20} 
+                                                x={speed} 
+                                                onChange={ ({x}) => setSpeed(x)}
+                                                disabled={drawing ? true : false}/>
                                         </ControlTD>
                                     </tr>
                                     <tr>
@@ -219,7 +230,7 @@ function App() {
                                         </LabelTD>
                                         <ControlTD>
                                             <div style={{width: '100%', paddingTop:'4px'}}>
-                                            <Switch {...switchProps}/>
+                                            <Switch disabled={drawing ? true : false} {...switchProps}/>
                                             </div>
                                         </ControlTD>
                                     </tr>

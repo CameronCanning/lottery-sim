@@ -4,7 +4,7 @@ import styled from 'styled-components'
 const StyledCell = styled.div`
     visibility: ${props => props.isEmpty ? 'hidden' : 'visible'};
     background-color: ${props => props.pressed ? props.theme.primary : props.theme.bg3};
-    color: ${props => props.pressed ? props.theme.bg3 : ''};
+    color: ${props => props.pressed ? props.theme.font2 : props.theme.font1};
     width: 16%;
     height: 0;
     padding-bottom: 16%;

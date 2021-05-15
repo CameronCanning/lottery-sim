@@ -20,6 +20,7 @@ const StyledApp = styled.div`
     margin: auto;
     margin-top: 10px;
     margin-bottom: 10px;
+    color: ${ props => props.theme.font1 };
 `
 const AppContainer = styled.div`
     display: flex;
@@ -45,7 +46,6 @@ const ControlPanelLeft = styled(Panel)`
     justify-content: space-evenly;
     width: 30%;
     text-align: center;
-    //padding: 10px;
 `
 const ControlPanelRight = styled(Panel)`
     display: flex;
@@ -57,7 +57,7 @@ const ControlPanelRight = styled(Panel)`
 `
 const StyledButton = styled.button`
     background-color: ${props => props.primary ? props.theme.primary : props.theme.bg3};
-    color: ${props => props.primary ? props.theme.bg3 : props.theme.secondary};
+    color: ${props => props.primary ? props.theme.font2 : props.theme.font1};
     min-height: 35px;
     outline: none;
     width: 70%;
@@ -93,13 +93,13 @@ const StyledInput = styled.input`
     width: 70%;
     margin: auto;
     border: 2px solid ${props => props.theme.primary};
-    background-color: ${props => props.theme.bg2};
+    background-color: ${props => props.theme.bg3};
     border-radius: 5px;
-    color: ${props => props.theme.secondary};
+    color: ${props => props.theme.font1};
     &:focus {
         outline: none;
         border: 2px solid ${props => props.theme.primary};
-        box-shadow: 0 0 5px ${props => props.theme.primary};
+        box-shadow: 0 0 4px ${props => props.theme.primary};
     }
     ::-webkit-inner-spin-button{
         -webkit-appearance: none; 
