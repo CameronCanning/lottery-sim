@@ -33,10 +33,10 @@ const StyledButton = styled.button`
         filter: contrast(70%);
     }
 `
-export default function ControlPanelLeft({ onClickDraw, onClickReset, drawing, remainingDraws, total }){
+export default function ControlPanelLeft({ onClickDraw, onClickReset, drawing, remainingDraws, formatTotal}){
     return(
         <PanelWrapper>
-            <h1 style={{ fontSize: '2em', margin: '10px', marginTop:'0', fontWeight: 'bold'}}>{total}</h1>
+            <h1 style={{ fontSize: '2em', margin: '10px', marginTop:'0', fontWeight: 'bold'}}>{formatTotal()}</h1>
             <StyledButton primary onClick={onClickDraw}>
                 {drawing && remainingDraws ? 'Stop' : 'Draw'}
             </StyledButton>

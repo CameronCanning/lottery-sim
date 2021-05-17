@@ -5,18 +5,13 @@ import Ticket from './Ticket.js';
 import PayoutTable from './PayoutTable.js';
 import { ThemeProvider } from 'styled-components';
 import TitleBar from './TitleBar.js';
-import ControlPanelLeft from './ControlPanelLeft';
-import Slider from 'react-input-slider';
-import Switch from 'react-switch';
+import ControlPanelLeft from './ControlPanelLeft.js';
+import ControlPanelRight from './ControlPanelRight.js';
+
 import {StyledApp,
         AppContainer,
         ColumnContainer,
-        ControlPanel,
-        ControlPanelRight,
-        StyledLabel,
-        StyledInput,
-        ControlTD,
-        LabelTD} 
+        ControlPanel,} 
         from './appStyles.js';
 
 const themes = {
@@ -61,7 +56,6 @@ function App() {
     const [theme, setTheme] = useState(themes.light);
     document.body.style.backgroundColor = theme.bg1;
    
-
     const doDraw = () => {
         let currentPicks;
         quickPick ? currentPicks = draw(numBalls, range) : currentPicks = picks;
@@ -102,7 +96,6 @@ function App() {
             setIntervalId(id);
         }
     };
-
     const onClickDraw = () => { 
         drawing ? stopDraw(false) : drawControl(remainingDraws)
     };
@@ -115,7 +108,6 @@ function App() {
         }
             
     };
-
     const handleInputChange = ( e ) => {
         let num = e.target.value;
         if (num < 0){
@@ -124,9 +116,6 @@ function App() {
        setRemainingDraws(num);
        setTotalDraws(num);
     };
-
-    
-
     const onClickReset = () => {
         stopDraw();
         setDraws([...Array(numBalls)].fill('-'));
@@ -142,38 +131,25 @@ function App() {
         else{
             return '$' + total.toLocaleString();    
         }
-    }
-
-    const switchProps = {
-        onChange: () => setQuickPick( x => !x ),
-        checked: quickPick,
-        uncheckedIcon: false,
-        checkedIcon: false,
-        offColor: theme.bg3,
-        onColor: theme.primary,
-        offHandleColor: theme.bg3,
-        onHandleColor: theme.primary,
-        handleDiameter: 18,
-        height: 10,
-        width: 28,
-        activeBoxShadow: 'none',
-    }
-
-    const sliderStyles = {
-        track: {
-            backgroundColor: theme.bg3,
-            width: '70%',
-            margin: 'auto',
-        },
-        active: {
-            backgroundColor: theme.primary,
-        },    
-        thumb: {
-            backgroundColor: theme.primary,
-            boxShadow: 'none',
-        }
     };
-    
+    const cplProps = {
+        onClickDraw,
+        onClickReset,
+        drawing,
+        remainingDraws,
+        formatTotal
+    };
+    const cprProps = {
+        speed,
+        setSpeed,
+        drawing,
+        remainingDraws,
+        totalDraws,
+        handleInputChange,
+        theme,
+        setQuickPick,
+        quickPick
+    };
     return (
         <ThemeProvider theme={theme}>
         <StyledApp>        
@@ -187,15 +163,8 @@ function App() {
             <AppContainer>
                 <ColumnContainer>
                     <ControlPanel>
-                        <ControlPanelLeft 
-                            onClickDraw = {onClickDraw} 
-                            onClickReset = {onClickReset} 
-                            drawing = {drawing} 
-                            remainingDraws = {remainingDraws}
-                            total = {formatTotal()}/> 
-                        <ControlPanelRight
-                            />
-
+                        <ControlPanelLeft {...cplProps}/> 
+                        <ControlPanelRight {...cprProps}/>
                     </ControlPanel>
                     <PayoutTable payouts={payouts} results={results} numBalls={numBalls} />
                 </ColumnContainer>
