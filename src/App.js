@@ -1,20 +1,18 @@
 import React, { useState, useEffect } from 'react';
 import { draw, calcMatches } from './Lottery.js';
-import './App.css';
 import BallContainer from './BallContainer.js';
 import Ticket from './Ticket.js';
 import PayoutTable from './PayoutTable.js';
 import { ThemeProvider } from 'styled-components';
 import TitleBar from './TitleBar.js';
+import ControlPanelLeft from './ControlPanelLeft';
 import Slider from 'react-input-slider';
 import Switch from 'react-switch';
 import {StyledApp,
         AppContainer,
         ColumnContainer,
         ControlPanel,
-        ControlPanelLeft,
         ControlPanelRight,
-        StyledButton,
         StyledLabel,
         StyledInput,
         ControlTD,
@@ -98,8 +96,7 @@ function App() {
                 doDraw();
                 count = count - 1;
                 if (count < 1) {
-                    stopDraw(id);
-                    setRemainingDraws(totalDraws)
+                    stopDraw(true, id);
                 }
             }, 1000 / speed);
             setIntervalId(id);
@@ -107,13 +104,16 @@ function App() {
     };
 
     const onClickDraw = () => { 
-        drawing ? stopDraw() : drawControl(remainingDraws)
+        drawing ? stopDraw(false) : drawControl(remainingDraws)
     };
 
-    const stopDraw = (id = intervalId) => {
+    const stopDraw = (reset = true, id = intervalId) => {
         setDrawing(false);
         clearInterval(id);
-        //setRemainingDraws(totalDraws);
+        if (reset){
+            setRemainingDraws(totalDraws);
+        }
+            
     };
 
     const handleInputChange = ( e ) => {
@@ -180,65 +180,22 @@ function App() {
             <TitleBar 
                 onChange = { () => theme.id === 'light' ? setTheme(themes.dark) : setTheme(themes.light)}
                 theme = { theme } />
-            <BallContainer numBalls={numBalls} draws={draws} matches={matches}/>
+            <BallContainer 
+                numBalls={numBalls} 
+                draws={draws} 
+                matches={matches}/>
             <AppContainer>
                 <ColumnContainer>
                     <ControlPanel>
-                        <ControlPanelLeft> 
-                            <h1 style={{ fontSize: '2em', margin: '10px', marginTop:'0', fontWeight: 'bold'}}>{formatTotal()}</h1>
-                            <StyledButton primary onClick={onClickDraw}>
-                                {drawing && remainingDraws ? 'Stop' : 'Draw'}
-                            </StyledButton>
-                            <StyledButton onClick={onClickReset}>
-                                {'Reset'}
-                            </StyledButton>
-                        </ControlPanelLeft>
-                        <ControlPanelRight>
-                                <table>
-                                    <tr>
-                                        <LabelTD>
-                                            <StyledLabel first>Speed</StyledLabel>
-                                        </LabelTD>
-                                        <ControlTD>
-                                            <Slider 
-                                                id='speed' 
-                                                styles={sliderStyles} 
-                                                axis='x' 
-                                                xmin={1} 
-                                                xmax={20} 
-                                                x={speed} 
-                                                onChange={ ({x}) => setSpeed(x)}
-                                                disabled={drawing ? true : false}/>
-                                        </ControlTD>
-                                    </tr>
-                                    <tr>
-                                        <LabelTD>
-                                            <StyledLabel>Draws</StyledLabel>
-                                        </LabelTD>
-                                        <ControlTD>
-                                            <StyledInput                                                 
-                                                id='draws' 
-                                                type='number' 
-                                                min={1} 
-                                                max={10000} 
-                                                value={remainingDraws === totalDraws ? totalDraws : remainingDraws} 
-                                                onChange={handleInputChange}
-                                                disabled={drawing ? true : false}
-                                                drawing = {drawing}/>
-                                        </ControlTD>
-                                    </tr>
-                                    <tr>
-                                        <LabelTD>
-                                            <StyledLabel>Quickpick</StyledLabel>
-                                        </LabelTD>
-                                        <ControlTD>
-                                            <div style={{width: '100%', paddingTop:'4px'}}>
-                                            <Switch disabled={drawing ? true : false} {...switchProps}/>
-                                            </div>
-                                        </ControlTD>
-                                    </tr>
-                                </table>
-                        </ControlPanelRight>
+                        <ControlPanelLeft 
+                            onClickDraw = {onClickDraw} 
+                            onClickReset = {onClickReset} 
+                            drawing = {drawing} 
+                            remainingDraws = {remainingDraws}
+                            total = {formatTotal()}/> 
+                        <ControlPanelRight
+                            />
+
                     </ControlPanel>
                     <PayoutTable payouts={payouts} results={results} numBalls={numBalls} />
                 </ColumnContainer>
