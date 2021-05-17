@@ -99,6 +99,7 @@ function App() {
                 count = count - 1;
                 if (count < 1) {
                     stopDraw(id);
+                    setRemainingDraws(totalDraws)
                 }
             }, 1000 / speed);
             setIntervalId(id);
@@ -131,6 +132,7 @@ function App() {
         setDraws([...Array(numBalls)].fill('-'));
         setResults([...Array(numBalls + 1)].fill(0));
         setTotal(0);
+        setRemainingDraws(totalDraws)
     };
     const formatTotal = () => {
         if (total < 0){
