@@ -1,8 +1,8 @@
 {
   "files": {
     "main.css": "/lottery-sim/static/css/main.3f764d73.chunk.css",
-    "main.js": "/lottery-sim/static/js/main.89d01768.chunk.js",
-    "main.js.map": "/lottery-sim/static/js/main.89d01768.chunk.js.map",
+    "main.js": "/lottery-sim/static/js/main.a9191926.chunk.js",
+    "main.js.map": "/lottery-sim/static/js/main.a9191926.chunk.js.map",
     "runtime-main.js": "/lottery-sim/static/js/runtime-main.b3472330.js",
     "runtime-main.js.map": "/lottery-sim/static/js/runtime-main.b3472330.js.map",
     "static/js/2.44893975.chunk.js": "/lottery-sim/static/js/2.44893975.chunk.js",
@@ -18,6 +18,6 @@
     "static/js/runtime-main.b3472330.js",
     "static/js/2.44893975.chunk.js",
     "static/css/main.3f764d73.chunk.css",
-    "static/js/main.89d01768.chunk.js"
+    "static/js/main.a9191926.chunk.js"
   ]
 }
